@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using warframe_relice_price.Core;
 using warframe_relice_price.Utils;
+using Rewards.Examples;
+
 
 namespace warframe_relice_price
 {
@@ -28,7 +30,10 @@ namespace warframe_relice_price
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            Logger.Log("Overlay starting up.");
+
+            RewardCountingExample.Run(); // call it here for now
+
+            /* Logger.Log("Overlay starting up.");
 
             var window = new MainWindow();
             MainWindow = window;
@@ -37,6 +42,7 @@ namespace warframe_relice_price
 
             appController = new AppController(window);
             appController.startLoop();
+            */
         }
     }
 
