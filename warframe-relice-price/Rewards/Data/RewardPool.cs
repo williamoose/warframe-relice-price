@@ -36,6 +36,12 @@ public static class RelicRewardPool
 		new("Chroma Prime Systems Blueprint", "chroma prime systems blueprint"),
 		new("Chroma Prime Blueprint", "chroma prime blueprint"),
 
+		// Caliban Prime
+        new("Caliban Prime Chassis Blueprint", "caliban prime chassis blueprint"),
+		new("Caliban Prime Neuroptics Blueprint", "caliban prime neuroptics blueprint"),
+		new("Caliban Prime Systems Blueprint", "caliban prime systems blueprint"),
+		new("Caliban Prime Blueprint", "caliban prime blueprint"),
+
         // Ember Prime
         new("Ember Prime Chassis Blueprint", "ember prime chassis blueprint"),
 		new("Ember Prime Neuroptics Blueprint", "ember prime neuroptics blueprint"),
@@ -78,6 +84,12 @@ public static class RelicRewardPool
 		new("Grendel Prime Systems Blueprint", "grendel prime systems blueprint"),
 		new("Grendel Prime Blueprint", "grendel prime blueprint"),
 
+		// Gyre Prime
+        new("Gyre Prime Chassis Blueprint", "gyre prime chassis blueprint"),
+		new("Gyre Prime Neuroptics Blueprint", "gyre prime neuroptics blueprint"),
+		new("Gyre Prime Systems Blueprint", "gyre prime systems blueprint"),
+		new("Gyre Prime Blueprint", "gyre prime blueprint"),
+
         // Harrow Prime
         new("Harrow Prime Chassis Blueprint", "harrow prime chassis blueprint"),
 		new("Harrow Prime Neuroptics Blueprint", "harrow prime neuroptics blueprint"),
@@ -113,6 +125,12 @@ public static class RelicRewardPool
 		new("Khora Prime Neuroptics Blueprint", "khora prime neuroptics blueprint"),
 		new("Khora Prime Systems Blueprint", "khora prime systems blueprint"),
 		new("Khora Prime Blueprint", "khora prime blueprint"),
+
+        // Lavos Prime
+        new("Lavos Prime Chassis Blueprint", "lavos prime chassis blueprint"),
+		new("Lavos Prime Neuroptics Blueprint", "lavos prime neuroptics blueprint"),
+		new("Lavos Prime Systems Blueprint", "lavos prime systems blueprint"),
+		new("Lavos Prime Blueprint", "lavos prime blueprint"),
 
         // Limbo Prime
         new("Limbo Prime Chassis Blueprint", "limbo prime chassis blueprint"),
@@ -264,6 +282,12 @@ public static class RelicRewardPool
 		new("Xaku Prime Systems Blueprint", "xaku prime systems blueprint"),
 		new("Xaku Prime Blueprint", "xaku prime blueprint"),
 
+		// Yareli Prime
+        new("Yareli Prime Chassis Blueprint", "yareli prime chassis blueprint"),
+		new("Yareli Prime Neuroptics Blueprint", "yareli prime neuroptics blueprint"),
+		new("Yareli Prime Systems Blueprint", "yareli prime systems blueprint"),
+		new("Yareli Prime Blueprint", "yareli prime blueprint"),
+
         // Zephyr Prime
         new("Zephyr Prime Chassis Blueprint", "zephyr prime chassis blueprint"),
 		new("Zephyr Prime Neuroptics Blueprint", "zephyr prime neuroptics blueprint"),
@@ -394,19 +418,29 @@ public static class RelicRewardPool
 		new("Burston Prime Barrel", "burston prime barrel"),
 
         // Carrier Prime
+		new("Carrier Prime Blueprint", "carrier prime blueprint"),
+		new("Carrier Prime Carapace", "carrier prime carapace"),
+		new("Carrier Prime Cerebum", "carrier prime cerebum"),
+		new("Carrier Prime Systems", "carrier prime systems"),
 
-        
+        // Cedo Prime
+        new("Cedo Prime Blueprint", "cedo prime blueprint"),
+		new("Cedo Prime Receiver", "cedo prime receiver"),
+		new("Cedo Prime Stock", "cedo prime stock"),
+		new("Cedo Prime Barrel", "cedo prime barrel"),
+
         // Cernos Prime
         new("Cernos Prime Blueprint", "cernos prime blueprint"),
-		new("Cernos Prime Receiver", "cernos prime receiver"),
-		new("Cernos Prime Stock", "cernos prime stock"),
-		new("Cernos Prime Barrel", "cernos prime barrel"),
+		new("Cernos Prime Grip", "cernos prime grip"),
+		new("Cernos Prime Lower Limb", "cernos prime lower limb"),
+		new("Cernos Prime Upper Limb", "cernos prime upper limb"),
+		new("Cernos Prime String", "cernos prime string"),
 
         // Cobra & Crane Prime
         new("Cobra & Crane Prime Blueprint", "cobra & crane prime blueprint"),
-		new("Cobra & Crane Prime Handle", "cobra & crane prime handle"),
 		new("Cobra & Crane Prime Guard", "cobra & crane prime guard"),
 		new("Cobra & Crane Prime Blade", "cobra & crane prime blade"),
+		new("Cobra & Crane Prime Hilt", "cobra & crane prime hilt"),
 
         // Corinth Prime
         new("Corinth Prime Blueprint", "corinth prime blueprint"),
@@ -414,41 +448,59 @@ public static class RelicRewardPool
 		new("Corinth Prime Stock", "corinth prime stock"),
 		new("Corinth Prime Barrel", "corinth prime barrel"),
 
+		// Corvas Prime
+        new("Corvas Prime Blueprint", "corvas prime blueprint"),
+		new("Corvas Prime Receiver", "corvas prime receiver"),
+		new("Corvas Prime Stock", "corvas prime stock"),
+		new("Corvas Prime Barrel", "corvas prime barrel"),
+
+		// Daikyu Prime
+        new("Daikyu Prime Blueprint", "daikyu prime blueprint"),
+		new("Daikyu Prime Grip", "daikyu prime grip"),
+		new("Daikyu Prime Lower Limb", "daikyu prime lower limb"),
+		new("Daikyu Prime Upper Limb", "daikyu prime upper limb"),
+		new("Daikyu Prime String", "daikyu prime string"),
+
         // Dakra Prime
         new("Dakra Prime Blueprint", "dakra prime blueprint"),
 		new("Dakra Prime Handle", "dakra prime handle"),
-		new("Dakra Prime Guard", "dakra prime guard"),
 		new("Dakra Prime Blade", "dakra prime blade"),
 
         // Destreza Prime
         new("Destreza Prime Blueprint", "destreza prime blueprint"),
 		new("Destreza Prime Handle", "destreza prime handle"),
-		new("Destreza Prime Guard", "destreza prime guard"),
 		new("Destreza Prime Blade", "destreza prime blade"),
+
+		// Dethcube Prime
+		new("Dethcube Prime Blueprint", "dethcube prime blueprint"),
+		new("Dethcube Prime Carapace", "dethcube prime carapace"),
+		new("Dethcube Prime Cerebum", "dethcube prime cerebum"),
+		new("Dethcube Prime Systems", "dethcube prime systems"),
 
         // Dual Kamas Prime
         new("Dual Kamas Prime Blueprint", "dual kamas prime blueprint"),
 		new("Dual Kamas Prime Handle", "dual kamas prime handle"),
-		new("Dual Kamas Prime Guard", "dual kamas prime guard"),
 		new("Dual Kamas Prime Blade", "dual kamas prime blade"),
 
         // Dual Keres Prime
         new("Dual Keres Prime Blueprint", "dual keres prime blueprint"),
 		new("Dual Keres Prime Handle", "dual keres prime handle"),
-		new("Dual Keres Prime Guard", "dual keres prime guard"),
 		new("Dual Keres Prime Blade", "dual keres prime blade"),
+
+		// Dual Zoren Prime
+        new("Dual Zoren Prime Blueprint", "dual zoren prime blueprint"),
+		new("Dual Zoren Prime Handle", "dual zoren prime handle"),
+		new("Dual Zoren Prime Blade", "dual zoren prime blade"),
 
         // Epitaph Prime
         new("Epitaph Prime Blueprint", "epitaph prime blueprint"),
 		new("Epitaph Prime Receiver", "epitaph prime receiver"),
 		new("Epitaph Prime Barrel", "epitaph prime barrel"),
-		new("Epitaph Prime Handle", "epitaph prime handle"),
 
         // Euphona Prime
         new("Euphona Prime Blueprint", "euphona prime blueprint"),
 		new("Euphona Prime Receiver", "euphona prime receiver"),
 		new("Euphona Prime Barrel", "euphona prime barrel"),
-		new("Euphona Prime Handle", "euphona prime handle"),
 
         // Forma
         new("Forma Blueprint", "forma blueprint"),
@@ -734,5 +786,5 @@ public static class RelicRewardPool
 		new("Zhuge Prime Receiver", "zhuge prime receiver"),
 		new("Zhuge Prime Stock", "zhuge prime stock"),
 		new("Zhuge Prime Barrel", "zhuge prime barrel"),
-};
+	};
 }
