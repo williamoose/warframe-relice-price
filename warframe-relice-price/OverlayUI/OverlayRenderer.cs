@@ -87,6 +87,41 @@ namespace warframe_relice_price.OverlayUI
             //_overlayCanvas.Children.Add(rowRect);
         }
 
+        public System.Windows.Shapes.Rectangle RectangleConverter(System.Drawing.Rectangle rectangle)
+        {
+            return new System.Windows.Shapes.Rectangle
+            {
+                Width = rectangle.Width,
+                Height = rectangle.Height,
+            };
+        }
+
+        public void DrawDebugRewardBoxes()
+        {
+            for (int i = 1; i <= 4; i++)
+            {
+                System.Drawing.Rectangle rectangle = ScreenCaptureRow.get_box_rect(i);
+                int left = rectangle.Left;
+                DrawRect(RectangleConverter(rectangle), System.Windows.Media.Colors.LimeGreen, left);
+            }
+        }
+
+        public void DrawRect(System.Windows.Shapes.Rectangle rect, System.Windows.Media.Color color, int left)
+        {
+            var r = new System.Windows.Shapes.Rectangle
+            {
+                Width = rect.Width,
+                Height = rect.Height,
+                Stroke = new SolidColorBrush(color),
+                StrokeThickness = 2,
+                Fill = System.Windows.Media.Brushes.Transparent
+            };
+
+            Canvas.SetLeft(r, left);
+            Canvas.SetTop(r, ScreenCaptureRow.box_y_coordinate);
+
+            _overlayCanvas.Children.Add(r);
+        }
         public void DrawItemsName(string text)
         {
             var itemNameText = new TextBlock
@@ -101,12 +136,12 @@ namespace warframe_relice_price.OverlayUI
 
         }
 
-        public void DrawAll(double width, double height, int slots)
+        public void DrawAll()
         {
             _overlayCanvas.Children.Clear();
 
-            DrawFakeRelicPrices(width, height, slots);
             DrawTestBoundary();
+            DrawDebugRewardBoxes();
         }
     }
 

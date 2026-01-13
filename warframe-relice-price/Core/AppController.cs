@@ -124,7 +124,7 @@ namespace warframe_relice_price.Core
                 _window.Height = rect.Bottom - rect.Top;
 
                 //_overlayRenderer.DrawFakeRelicPrices(_window.Width, _window.Height, 4);
-                _overlayRenderer.DrawTestBoundary();
+                _overlayRenderer.DrawAll();
 
                 if (_state == AppState.Idle)
                 {
@@ -229,7 +229,9 @@ namespace warframe_relice_price.Core
             ImageToText.saveDebugImage(bmp, "reward_row_raw");
             string rowText = ImageToText.multiPassOCR(bmp);
 
+            CheckForRewardScreen.CountRewards();
             Logger.Log($"OCR(reward row) = '{rowText}'");
+            
         }
     }
 }

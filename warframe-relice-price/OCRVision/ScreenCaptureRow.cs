@@ -36,14 +36,17 @@ namespace warframe_relice_price.OCRVision
         );
 
         // Dimensions for invidual boxes (n = 1 to 4)
+
+        public static int box_width = (int) (0.125 * WarframeWindowInfo.Width);
+        public static int box_height = row_height;
+        public static int box_x_coordinate = (int) (0.247 * WarframeWindowInfo.Width);
+        public static int box_y_coordinate = row_y_coordinate;
+
         public static Rectangle get_box_rect(int n)
         {
-            int box_width = (int) (0.13 * WarframeWindowInfo.Width);
-            int box_height = (int) (0.056 * WarframeWindowInfo.Height);
-            int box_x_coordinate = row_x_coordinate + (n - 1) * box_width;
-            int box_y_coordinate = row_y_coordinate;
+            int offset = n > 0 ? 5 : 0;
             return new Rectangle(
-                box_x_coordinate,
+                box_x_coordinate + (n - 1) * box_width + offset,
                 box_y_coordinate,
                 box_width,
                 box_height

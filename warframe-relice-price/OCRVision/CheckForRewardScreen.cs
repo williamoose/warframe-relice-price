@@ -31,5 +31,39 @@ namespace warframe_relice_price.OCRVision
 
             return IsRewardScreenPresent(detectionText);
         }
+
+        public static int DetectRewardCount(List<string> texts)
+        {
+            int count = 0;
+
+            foreach (var text in texts)
+            {
+                if (ImageToText.ScoreText(text) >= 10) // tweak threshold
+                    count++;
+            }
+
+            return count;
+        }
+
+        public static void CountRewards()
+        {
+            List<string> rewards = new();
+
+            for (int i = 1; i <= 4; i++)
+            {
+                var box = ScreenCaptureRow.get_box_rect(i);
+                var screenBox = ScreenCaptureRow.ToScreenRect(box);
+
+                using var bmp = ScreenCaptureRow.captureRegion(screenBox);
+                ImageToText.saveDebugImage(bmp, $"reward_box_{i}");
+                string text = ImageToText.multiPassOCR(bmp);
+
+                rewards.Add(text);
+            }
+
+            int rewardCount = DetectRewardCount(rewards);
+
+            Logger.Log($"Detected {rewardCount} rewards");
+        }
     }
 }

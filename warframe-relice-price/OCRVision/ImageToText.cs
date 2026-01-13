@@ -22,7 +22,7 @@ namespace warframe_relice_price.OCRVision
             return page.GetText().Trim();
         }
 
-        private static int ScoreText (string text)
+        public static int ScoreText (string text)
         {
             if (string.IsNullOrWhiteSpace(text))    
             {
