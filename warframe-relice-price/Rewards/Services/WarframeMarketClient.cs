@@ -13,11 +13,14 @@ public class WarframeMarketClient
 		BaseAddress = new Uri("https://api.warframe.market/v2/")
 	};
 
-	public async Task<int?> GetLowestPriceAsync(string slug)
+	public int? GetLowestPrice(string slug)
 	{
 		try
 		{
-			string rawJson = await Http.GetStringAsync($"orders/item/{slug}/top");
+			string rawJson = Http
+				.GetStringAsync($"orders/item/{slug}/top")
+				.GetAwaiter()
+				.GetResult();
 
 			var response = JsonSerializer.Deserialize<ItemResponse>(
 				rawJson,

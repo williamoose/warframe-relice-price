@@ -23,10 +23,10 @@ namespace warframe_relice_price.OverlayUI
 			_marketClient = new WarframeMarketClient();
 		}
 
-		public async Task DrawRelicPricesAsync(double width, double height, int slots)
+		public Task DrawRelicPrices(double width, double height, int slots)
 		{
 			if (width <= 0 || height <= 0 || slots <= 0)
-				return;
+				return Task.CompletedTask;
 
 			double rowY = height * OverlayConstants.RewardRowYPercent;
 			double priceOffsetY = rowY - (height * OverlayConstants.PriceOffsetYPercent);
@@ -50,7 +50,7 @@ namespace warframe_relice_price.OverlayUI
 				{
 					string urlName = WarframeMarketNaming.ToUrlName(items[i].CanonicalName);
 					Console.WriteLine(urlName);
-					int? price = await _marketClient.GetLowestPriceAsync(urlName);
+					int? price = _marketClient.GetLowestPrice(urlName);
 					displayText = price is null ? "No listings" : $"{price}p";
 				}
 
@@ -73,6 +73,7 @@ namespace warframe_relice_price.OverlayUI
 				// --- Remove after 15 seconds ---
 				_ = RemoveAfterDelayAsync(priceText, 15000);
 			}
+			return Task.CompletedTask;
 		}
 
 		// Helper to remove a TextBlock after a delay
@@ -110,7 +111,7 @@ namespace warframe_relice_price.OverlayUI
 		{
 			_overlayCanvas.Children.Clear();
 
-			await DrawRelicPricesAsync(width, height, slots);
+			await DrawRelicPrices(width, height, slots);
 			DrawTestBoundary();
 		}
 	}
