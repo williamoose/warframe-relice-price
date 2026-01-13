@@ -2,8 +2,8 @@
 using warframe_relice_price.Core;
 using warframe_relice_price.Utils;
 
-namespace warframe_relice_price
-{
+namespace warframe_relice_price;
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -28,6 +28,7 @@ namespace warframe_relice_price
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
             Logger.Log("Overlay starting up.");
 
             var window = new MainWindow();
@@ -36,8 +37,8 @@ namespace warframe_relice_price
             Logger.Log("Main window shown.");
 
             appController = new AppController(window);
-            appController.startLoop();
+            appController.startLoop();           
         }
     }
 
-}
+
