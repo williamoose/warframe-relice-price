@@ -9,14 +9,16 @@ using warframe_relice_price.OCRVision;
 
 namespace warframe_relice_price.OverlayUI
 {
-    class OverlayRenderer
-    {
-        private readonly Canvas _overlayCanvas;
+	class OverlayRenderer
+	{
+		private readonly Canvas _overlayCanvas;
+		private readonly WarframeMarketClient _marketClient;
 
-        public OverlayRenderer(Canvas overlayCanvas)
-        {
-            _overlayCanvas = overlayCanvas;
-        }
+		public OverlayRenderer(Canvas overlayCanvas)
+		{
+			_overlayCanvas = overlayCanvas;
+			_marketClient = new WarframeMarketClient();
+		}
 
         // Replace this later with actual rendering logic
         public void DrawFakeRelicPrices(double width, double height, int slots)
@@ -32,45 +34,74 @@ namespace warframe_relice_price.OverlayUI
             double startX = (width - totalRowWidth) / 2;
             double slotWidth = totalRowWidth / slots;
 
-            for (int i = 0; i < slots; i++)
-            {
-                double slotX = startX + (i * slotWidth);
-                // Draw fake price text
-                var priceText = new TextBlock
-                {
-                    Text = $"Price: {(i + 1) * 10} Platinum",
-                    FontWeight = FontWeights.Bold,
-                    Foreground = System.Windows.Media.Brushes.Gold,
-                    FontSize = height * 0.018 // Adjust font size relative to height
-                };
-                priceText.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
-                double textWidth = priceText.DesiredSize.Width;
+			var screenRowRect = ScreenCaptureRow.ToScreenRect(ScreenCaptureRow.row_rect);
+			using var bmp = ScreenCaptureRow.captureRegion(screenRowRect);
 
-                Canvas.SetLeft(priceText, slotX + (slotWidth - textWidth) / 2);
-                Canvas.SetTop(priceText, priceOffsetY);
+			string ocrText = ImageToText.multiPassOCR(bmp);
+			var items = RewardCounter.Count(ocrText);
 
-                _overlayCanvas.Children.Add(priceText);
-            }
-        }
+			for (int i = 0; i < slots; i++)
+			{
+				double slotX = startX + i * slotWidth;
+				string displayText = "—";
 
-        // To Test if boundary is correctly set
-        public void DrawTestBoundary()
-        {
-            //_overlayCanvas.Children.Clear();
+				if (i < items.Count)
+				{
+					string urlName = WarframeMarketNaming.ToUrlName(items[i].CanonicalName);
+					Console.WriteLine(urlName);
+					int? price = _marketClient.GetLowestPrice(urlName);
+					displayText = price is null ? "No listings" : $"{price}p";
+				}
 
-            // Reward Screen Detection Box
-            var detectionRect = new System.Windows.Shapes.Rectangle
-            {
-                Width = ScreenCaptureRow.detection_box_width,
-                Height = ScreenCaptureRow.detection_box_height,
-                Stroke = System.Windows.Media.Brushes.Red,
-                StrokeThickness = 2,
-                Fill = System.Windows.Media.Brushes.Transparent
-            };
+				var priceText = new TextBlock
+				{
+					Text = displayText,
+					FontWeight = FontWeights.Bold,
+					Foreground = Brushes.Gold,
+					FontSize = height * 0.018,
+					TextAlignment = TextAlignment.Center
+				};
 
-            Canvas.SetLeft(detectionRect, ScreenCaptureRow.detection_box_x_coordinate);
-            Canvas.SetTop(detectionRect, ScreenCaptureRow.detection_box_y_coordinate);
-            _overlayCanvas.Children.Add(detectionRect);
+				priceText.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+
+				Canvas.SetLeft(priceText, slotX + (slotWidth - priceText.DesiredSize.Width) / 2);
+				Canvas.SetTop(priceText, priceOffsetY);
+
+				_overlayCanvas.Children.Add(priceText);
+
+				// --- Remove after 15 seconds ---
+				_ = RemoveAfterDelayAsync(priceText, 15000);
+			}
+			return Task.CompletedTask;
+		}
+
+		// Helper to remove a TextBlock after a delay
+		private async Task RemoveAfterDelayAsync(UIElement element, int milliseconds)
+		{
+			await Task.Delay(milliseconds);
+
+			// Remove safely on UI thread
+			_overlayCanvas.Dispatcher.Invoke(() =>
+			{
+				_overlayCanvas.Children.Remove(element);
+			});
+		}
+
+
+		// Debug / boundary visualization
+		public void DrawTestBoundary()
+		{
+			var detectionRect = new Rectangle
+			{
+				Width = ScreenCaptureRow.detection_box_width,
+				Height = ScreenCaptureRow.detection_box_height,
+				Stroke = Brushes.Red,
+				StrokeThickness = 2,
+				Fill = Brushes.Transparent
+			};
+
+			Canvas.SetLeft(detectionRect, ScreenCaptureRow.detection_box_x_coordinate);
+			Canvas.SetTop(detectionRect, ScreenCaptureRow.detection_box_y_coordinate);
 
             // Reward Row Box
             //var rowRect = new System.Windows.Shapes.Rectangle
