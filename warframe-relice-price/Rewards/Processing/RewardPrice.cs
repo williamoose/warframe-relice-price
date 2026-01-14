@@ -14,11 +14,15 @@ namespace Rewards.Processing;
     {
         static readonly WarframeMarketClient wClient = new WarframeMarketClient();
 
-        public static int? getPriceForItem(int index)
+        public static int? getPriceForItem(int index, int numRewards)
         {
-        var ocrText = ImageToText.singleBoxOCR(index + 1);
+        var ocrText = ImageToText.singleBoxOCR(index + 1, numRewards);
+
+        Logger.Log($"OCR Text: {ocrText}, Sending for fuzzy matching");
 
         var item = RewardMatcher.matchSingle(ocrText);
+
+        Logger.Log($"Fuzzy Matching result: {item.CanonicalName}");
 
         string urlName = WarframeMarketNaming.ToUrlName(item.CanonicalName);
 

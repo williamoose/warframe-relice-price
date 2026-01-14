@@ -225,15 +225,19 @@ namespace warframe_relice_price.Core
 
         private void captureStableReward()
         {
-            //var screenRowRect = ScreenCaptureRow.ToScreenRect(ScreenCaptureRow.row_rect);
-            //using var bmp = ScreenCaptureRow.captureRegion(screenRowRect);
-            //string rowText = ImageToText.multiPassOCR(bmp);
-            int numRewards = CheckForRewardScreen.CountRewards();
+            var screenRowRect = ScreenCaptureRow.ToScreenRect(ScreenCaptureRow.row_rect);
+            using var bmp = ScreenCaptureRow.captureRegion(screenRowRect);
+            string rowText = ImageToText.multiPassOCR(bmp);
+
+            // Maybe we can use another method to count rewards here?
+            int numRewards = RewardCounter.Count(rowText).Count;
+            Logger.Log($"Capturing stable reward with {numRewards} rewards.");
+            // int numRewards = CheckForRewardScreen.CountRewards();
             List<int?> prices = new List<int?>();
 
             for (int i = 0; i < numRewards; i++)
             {
-                int? price = RewardPrice.getPriceForItem(i);
+                int? price = RewardPrice.getPriceForItem(i, numRewards);
                 _prices.Add(price);
             }
             Logger.Log($"Captured {_prices.Count} prices.");

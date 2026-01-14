@@ -51,7 +51,7 @@ namespace warframe_relice_price.OCRVision
 
             for (int i = 1; i <= 4; i++)
             {
-                string text = ImageToText.singleBoxOCR(i);
+                string text = ImageToText.singleBoxOCR(i, 4);
                 rewards.Add(text);
             }
 

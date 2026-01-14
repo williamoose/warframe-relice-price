@@ -64,12 +64,12 @@ namespace warframe_relice_price.OCRVision
 
         }
 
-        public static string singleBoxOCR(int boxIndex)
+        public static string singleBoxOCR(int boxIndex, int numRewards)
         {
-            var box = ScreenCaptureRow.get_box_rect(boxIndex);
+            var box = ScreenCaptureRow.getMiniRewardBox(boxIndex, numRewards);
             var screenBox = ScreenCaptureRow.ToScreenRect(box);
             using var bmp = ScreenCaptureRow.captureRegion(screenBox);
-            var item = ImageToText.multiPassOCR(bmp);
+            var item = multiPassOCR(bmp);
             saveDebugImage(bmp, $"reward_box_{boxIndex}");
 
             return item;

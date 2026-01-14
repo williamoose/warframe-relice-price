@@ -53,6 +53,20 @@ namespace warframe_relice_price.OCRVision
             );
         }
 
+        public static Rectangle getMiniRewardBox(int n, int numRewards)
+        {
+            int offset = n > 0 ? 5 : 0;
+            int totalWidth = box_width * numRewards + (offset - 1) * numRewards;
+            int x_offset = (WarframeWindowInfo.Width - totalWidth) / 2;
+            return new Rectangle(
+                x_offset + (n - 1) * box_width + offset,
+                box_y_coordinate,
+                box_width,
+                box_height
+            );
+
+        }
+
         public static Rectangle ToScreenRect(Rectangle overlayRect)
         {
             return new Rectangle(

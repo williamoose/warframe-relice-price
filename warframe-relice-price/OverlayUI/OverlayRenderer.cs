@@ -71,7 +71,7 @@ namespace warframe_relice_price.OverlayUI
 				_overlayCanvas.Children.Add(priceText);
 
 				// --- Remove after 15 seconds ---
-				_ = RemoveAfterDelayAsync(priceText, 15000);
+				_ = RemoveAfterDelayAsync(priceText, 1500);
 			}
 		}
 
