@@ -172,7 +172,6 @@ namespace warframe_relice_price.OverlayUI
         public void DrawAll()
         {
             _overlayCanvas.Children.Clear();
-
             DrawTestBoundary();
         }
     }
