@@ -22,7 +22,7 @@ namespace warframe_relice_price.OCRVision
             return page.GetText().Trim();
         }
 
-        private static int ScoreText (string text)
+        public static int ScoreText (string text)
         {
             if (string.IsNullOrWhiteSpace(text))    
             {
@@ -62,6 +62,17 @@ namespace warframe_relice_price.OCRVision
 
             return bestResult.Item1;
 
+        }
+
+        public static string singleBoxOCR(int boxIndex, int numRewards)
+        {
+            var box = ScreenCaptureRow.getMiniRewardBox(boxIndex, numRewards);
+            var screenBox = ScreenCaptureRow.ToScreenRect(box);
+            using var bmp = ScreenCaptureRow.captureRegion(screenBox);
+            var item = multiPassOCR(bmp);
+            saveDebugImage(bmp, $"reward_box_{boxIndex}");
+
+            return item;
         }
 
         public static void saveDebugImage(Bitmap img, string tag)

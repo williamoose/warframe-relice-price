@@ -7,6 +7,8 @@ using warframe_relice_price.OverlayUI;
 using warframe_relice_price.Utils;
 using warframe_relice_price.WarframeTracker;
 
+using Rewards.Processing;
+
 namespace warframe_relice_price.Core
 {
     class AppController 
@@ -35,6 +37,8 @@ namespace warframe_relice_price.Core
         // To delay capturing stable reward after detection
         private bool _hasCapturedStableReward;
         private readonly TimeSpan _rewardOcrDelay = TimeSpan.FromMilliseconds(1000);
+
+        private List<int?> _prices = new List<int?>();
 
         public AppController(MainWindow window) 
         { 
@@ -85,7 +89,7 @@ namespace warframe_relice_price.Core
             _hasCapturedStableReward = false;
         }
 
-        private async void OnTick(object sender, EventArgs e)
+        private void OnTick(object sender, EventArgs e)
         {
             // Update PID + raise WarframeStarted/WarframeStopped events based on polling.
             if (WarframeProcess.TryUpdateFromPolling())
@@ -122,9 +126,6 @@ namespace warframe_relice_price.Core
                 _window.Top = rect.Top;
                 _window.Width = rect.Right - rect.Left;
                 _window.Height = rect.Bottom - rect.Top;
-
-                //_overlayRenderer.DrawFakeRelicPrices(_window.Width, _window.Height, 4);
-                _overlayRenderer.DrawTestBoundary();
 
                 if (_state == AppState.Idle)
                 {
@@ -190,6 +191,7 @@ namespace warframe_relice_price.Core
 
                     if (CheckForRewardScreen.TryDetectRewardScreen(out _))
                     {
+                        _overlayRenderer.DrawRelicPrices(_prices);
                         _rewardScreenMisses = 0;
                         return;
                     }
@@ -215,22 +217,32 @@ namespace warframe_relice_price.Core
 
         private void ResetToInWarframe()
         {
+            _prices.Clear();
             _state = AppState.InWarframe;
             _hasCapturedStableReward = false;
             _rewardScreenMisses = 0;
         }
 
-        private async void captureStableReward()
+        private void captureStableReward()
         {
             var screenRowRect = ScreenCaptureRow.ToScreenRect(ScreenCaptureRow.row_rect);
             using var bmp = ScreenCaptureRow.captureRegion(screenRowRect);
-            var gray = ScreenCaptureRow.toGrayScale(bmp);
-            ImageToText.saveDebugImage(gray, "reward_row_gray");
-            ImageToText.saveDebugImage(bmp, "reward_row_raw");
             string rowText = ImageToText.multiPassOCR(bmp);
-			await _overlayRenderer.DrawAllAsync(_window.Width, _window.Height, 4);
 
-			Logger.Log($"OCR(reward row) = '{rowText}'");
+            // Maybe we can use another method to count rewards here?
+            // int numRewards = RewardCounter.Count(rowText).Count;
+            int numRewards = CheckForRewardScreen.CountRewards();
+            Logger.Log($"Capturing stable reward with {numRewards} rewards.");
+            
+            List<int?> prices = new List<int?>();
+
+            for (int i = 0; i < numRewards; i++)
+            {
+                int? price = RewardPrice.getPriceForItem(i, numRewards);
+                _prices.Add(price);
+            }
+            Logger.Log($"Captured {_prices.Count} prices.");
+
         }
     }
 }
