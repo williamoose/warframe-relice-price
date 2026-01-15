@@ -1,13 +1,7 @@
-﻿using System.Drawing;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
-using Rewards.Matching;
-using Rewards.Processing;
-using Rewards.Services;
 using warframe_relice_price.OCRVision;
-using warframe_relice_price.Utils;
 using warframe_relice_price.WarframeTracker;
 
 namespace warframe_relice_price.OverlayUI
@@ -15,12 +9,10 @@ namespace warframe_relice_price.OverlayUI
 	class OverlayRenderer
 	{
 		private readonly Canvas _overlayCanvas;
-		private readonly WarframeMarketClient _marketClient;
 
 		public OverlayRenderer(Canvas overlayCanvas)
 		{
 			_overlayCanvas = overlayCanvas;
-			_marketClient = new WarframeMarketClient();
 		}
 
         // Replace this later with actual rendering logic
@@ -129,8 +121,6 @@ namespace warframe_relice_price.OverlayUI
             }
         }
 
-        
-
         public void DrawDebugRectPx(System.Drawing.Rectangle pxRect, System.Windows.Media.Color color)
         {
             var dip = PxToDip(pxRect);
@@ -164,11 +154,78 @@ namespace warframe_relice_price.OverlayUI
 
         }
 
+        public void DrawDpiSanityTest()
+        {
+            // If these are 0/NaN, your window-info update isn't running before rendering.
+            if (WarframeWindowInfo.DpiX <= 0 || WarframeWindowInfo.DpiY <= 0)
+                return;
+
+            const int rectWpx = 200;
+            const int rectHpx = 100;
+
+            int x = (WarframeWindowInfo.WidthPx - rectWpx) / 2;
+            int y = (WarframeWindowInfo.HeightPx - rectHpx) / 2;
+
+            // A known, fixed pixel rect (window-relative).
+            var px = new System.Drawing.Rectangle(x, y, rectWpx, rectHpx);
+            var dip = PxToDip(px);
+
+            var r = new System.Windows.Shapes.Rectangle
+            {
+                Width = dip.Width,
+                Height = dip.Height,
+                Stroke = Brushes.Lime,
+                StrokeThickness = 2,
+                Fill = Brushes.Transparent
+            };
+
+            Canvas.SetLeft(r, dip.X);
+            Canvas.SetTop(r, dip.Y);
+            _overlayCanvas.Children.Add(r);
+
+            // Crosshair at (dip.X, dip.Y)
+            var crossV = new System.Windows.Shapes.Line
+            {
+                X1 = dip.X + dip.Width / 2,
+                Y1 = dip.Y + dip.Height / 2 - 10,
+                X2 = dip.X + dip.Width / 2,
+                Y2 = dip.Y + dip.Height / 2 + 10,
+                Stroke = Brushes.Lime,
+                StrokeThickness = 2
+            };
+            var crossH = new System.Windows.Shapes.Line
+            {
+                X1 = dip.X + dip.Width / 2 - 10,
+                Y1 = dip.Y + dip.Height / 2,
+                X2 = dip.X + dip.Width / 2 + 10,
+                Y2 = dip.Y + dip.Height / 2,
+                Stroke = Brushes.Lime,
+                StrokeThickness = 2
+            };
+
+            _overlayCanvas.Children.Add(crossV);
+            _overlayCanvas.Children.Add(crossH);
+
+            var info = new TextBlock
+            {
+                Foreground = Brushes.White,
+                FontSize = 14,
+                Text =
+                    $"DpiX={WarframeWindowInfo.DpiX:F3} DpiY={WarframeWindowInfo.DpiY:F3}\n" +
+                    $"WindowPx={WarframeWindowInfo.WidthPx}x{WarframeWindowInfo.HeightPx}\n" +
+                    $"WindowDip={WarframeWindowInfo.WidthDip:F1}x{WarframeWindowInfo.HeightDip:F1}\n" +
+                    $"TestRectPx={px} => RectDip(X={dip.X:F1},Y={dip.Y:F1},W={dip.Width:F1},H={dip.Height:F1})"
+            };
+
+            Canvas.SetLeft(info, 20);
+            Canvas.SetTop(info, 20);
+            _overlayCanvas.Children.Add(info);
+        }
+
         public void DrawAll()
         {
             _overlayCanvas.Children.Clear();
-            DrawTestBoundary();
-            DrawDebugRectPx(ScreenCaptureRow.GetDetectionBoxPx(), System.Windows.Media.Colors.Red);
+            DrawDpiSanityTest();
         }
     }
 
