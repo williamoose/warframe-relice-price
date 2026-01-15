@@ -141,6 +141,12 @@ namespace warframe_relice_price.Core
 
             if (_tracker.TryGetBounds(_warframeHwnd, out var rect))
             {
+                var source = PresentationSource.FromVisual(_window);
+                double dpiX = source?.CompositionTarget.TransformToDevice.M11 ?? 1.0;
+                double dpiY = source?.CompositionTarget.TransformToDevice.M22 ?? 1.0;
+
+                WarframeWindowInfo.UpdateFromRect(rect, dpiX, dpiY);
+
                 SetOverlayWindowPositionAndSize(rect);
 
                 if (_state == AppState.Idle)
@@ -241,9 +247,9 @@ namespace warframe_relice_price.Core
 
         private void captureStableReward()
         {
-            var screenRowRect = ScreenCaptureRow.ToScreenRect(ScreenCaptureRow.row_rect);
-            using var bmp = ScreenCaptureRow.captureRegion(screenRowRect);
-            string rowText = ImageToText.multiPassOCR(bmp);
+            // var screenRowRect = ScreenCaptureRow.ToScreenRect(ScreenCaptureRow.GetRewardRowPx());
+            // using var bmp = ScreenCaptureRow.captureRegion(screenRowRect);
+            // string rowText = ImageToText.multiPassOCR(bmp);
 
             // Maybe we can use another method to count rewards here?
             // int numRewards = RewardCounter.Count(rowText).Count;
