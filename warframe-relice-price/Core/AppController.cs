@@ -245,26 +245,26 @@ namespace warframe_relice_price.Core
             _rewardScreenMisses = 0;
         }
 
-        private void captureStableReward()
-        {
-            // var screenRowRect = ScreenCaptureRow.ToScreenRect(ScreenCaptureRow.GetRewardRowPx());
-            // using var bmp = ScreenCaptureRow.captureRegion(screenRowRect);
-            // string rowText = ImageToText.multiPassOCR(bmp);
+		private async Task captureStableReward()
+		{
+			int numRewards = CheckForRewardScreen.CountRewards();
+			Logger.Log($"Capturing stable reward with {numRewards} rewards.");
 
-            // Maybe we can use another method to count rewards here?
-            // int numRewards = RewardCounter.Count(rowText).Count;
-            int numRewards = CheckForRewardScreen.CountRewards();
-            Logger.Log($"Capturing stable reward with {numRewards} rewards.");
-            
-            List<int?> prices = new List<int?>();
+			// Start all tasks in parallel
+			var tasks = new List<Task<int?>>();
+			for (int i = 0; i < numRewards; i++)
+			{
+				tasks.Add(RewardPrice.getPriceForItemAsync(i, numRewards));
+			}
 
-            for (int i = 0; i < numRewards; i++)
-            {
-                int? price = RewardPrice.getPriceForItem(i, numRewards);
-                _prices.Add(price);
-            }
-            Logger.Log($"Captured {_prices.Count} prices.");
+			int?[] prices = await Task.WhenAll(tasks);
 
-        }
-    }
+			// Update your overlay list
+			_prices.Clear();
+			_prices.AddRange(prices);
+
+			// Draw overlay
+			_overlayRenderer.DrawRelicPrices(_prices);
+		}
+	}
 }
