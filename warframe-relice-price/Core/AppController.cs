@@ -233,7 +233,6 @@ namespace warframe_relice_price.Core
                     }
                 }
                 _overlayRenderer.DrawAll();
-                //_overlayRenderer.DrawAll(_window.Width, _window.Height, 4);
             }
         }
 

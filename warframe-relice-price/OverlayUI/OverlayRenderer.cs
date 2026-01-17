@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
+
 using warframe_relice_price.OCRVision;
 using warframe_relice_price.WarframeTracker;
 
@@ -222,10 +224,42 @@ namespace warframe_relice_price.OverlayUI
             _overlayCanvas.Children.Add(info);
         }
 
+        public void DrawGuiActiveText()
+        {
+            double x = _overlayCanvas.ActualWidth / 2;
+
+            var text = new TextBlock
+            {
+                Text = "RELIC OVERLAY ACTIVE",
+                FontWeight = FontWeights.Bold,
+                Foreground = System.Windows.Media.Brushes.White,
+                FontSize = 14,
+                TextAlignment = TextAlignment.Center
+            };
+
+            text.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
+
+            Canvas.SetLeft(text, x - text.DesiredSize.Width / 2);
+            Canvas.SetTop(text, 20);
+
+            var circle = new Ellipse
+            {
+                Width = 14,
+                Height = 14,
+                Fill = System.Windows.Media.Brushes.Green
+            };
+
+            Canvas.SetLeft(circle, x + text.DesiredSize.Width / 2 + 8);
+            Canvas.SetTop(circle, 23);
+
+            _overlayCanvas.Children.Add(text);
+            _overlayCanvas.Children.Add(circle);
+        }
+
         public void DrawAll()
         {
             _overlayCanvas.Children.Clear();
-            DrawDpiSanityTest();
+            DrawGuiActiveText();
         }
     }
 }
