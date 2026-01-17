@@ -228,7 +228,4 @@ namespace warframe_relice_price.OverlayUI
             DrawDpiSanityTest();
         }
     }
-
-
-
 }
