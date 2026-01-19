@@ -241,11 +241,11 @@ namespace warframe_relice_price.Core
                     {
                         if (rewardAge >= _rewardOcrDelay)
                         {
-                            _overlayRenderer.ShowLoadingIndicator();
+                            _overlayRenderer.Hud.ShowLoadingIndicator();
                             DoEvents(); // Allow UI to update
                             captureStableReward();
                             _hasCapturedStableReward = true;
-                            _overlayRenderer.HideLoadingIndicator();
+                            _overlayRenderer.Hud.HideLoadingIndicator();
 
                         }
                         return;
@@ -259,7 +259,7 @@ namespace warframe_relice_price.Core
 
                     if (CheckForRewardScreen.TryDetectRewardScreen(out _))
                     {
-                        _overlayRenderer.DrawRelicPrices(_prices);
+                        _overlayRenderer.Hud.DrawRelicPrices(_prices);
                         _rewardScreenMisses = 0;
                         return;
                     }
@@ -278,7 +278,7 @@ namespace warframe_relice_price.Core
                         ResetToInWarframe();
                     }
                 }
-                _overlayRenderer.DrawAll();
+                _overlayRenderer.Hud.DrawAll();
             }
         }
 
@@ -322,7 +322,7 @@ namespace warframe_relice_price.Core
 			_prices.AddRange(prices);
 
             // Draw overlay
-            _overlayRenderer.DrawRelicPrices(_prices);
+            _overlayRenderer.Hud.DrawRelicPrices(_prices);
 		}
 	}
 }

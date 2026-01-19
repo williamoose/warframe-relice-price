@@ -44,7 +44,7 @@ namespace warframe_relice_price.OverlayUI
 
             if (!_isActive)
             {
-                _renderer.CloseOverlayMenuIfOpen();
+                _renderer.Menu.CloseOverlayMenuIfOpen();
                 DisarmHotKey();
                 _window.Hide();
                 return;
@@ -63,7 +63,7 @@ namespace warframe_relice_price.OverlayUI
         /// </summary>
         public void TickLayout()
         {
-            _renderer.UpdateOverlayMenuLayout();
+            _renderer.Menu.UpdateOverlayMenuLayout();
         }
 
         private void ArmHotKeyIfPossible()
@@ -102,13 +102,13 @@ namespace warframe_relice_price.OverlayUI
 
             if (_renderer.IsOverlayMenuOpen)
             {
-                _renderer.CloseOverlayMenuIfOpen();
+                _renderer.Menu.CloseOverlayMenuIfOpen();
                 SetClickThrough(clickThrough: true);
                 return;
             }
 
-            _renderer.OpenOverlayMenu();
-            _renderer.UpdateOverlayMenuLayout();
+            _renderer.Menu.OpenOverlayMenu();
+            _renderer.Menu.UpdateOverlayMenuLayout();
 
             // Make overlay interactive while menu is opened
             SetClickThrough(clickThrough: false);
